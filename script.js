@@ -10,6 +10,67 @@ const proxyProviders = [
   (url) => `https://thingproxy.freeboard.io/fetch/${url}`,
 ];
 
+const fallbackTeamsData = {
+  groups: [
+    {
+      letter: "C",
+      teams: [
+        { name: "Argentina", group_points: 18, goal_differential: 7 },
+        { name: "Poland", group_points: 4, goal_differential: -2 },
+        { name: "Mexico", group_points: 4, goal_differential: 0 },
+        { name: "Saudi Arabia", group_points: 3, goal_differential: -5 },
+      ],
+    },
+    {
+      letter: "D",
+      teams: [
+        { name: "France", group_points: 15, goal_differential: 8 },
+        { name: "Australia", group_points: 6, goal_differential: -2 },
+        { name: "Denmark", group_points: 1, goal_differential: -2 },
+        { name: "Tunisia", group_points: 4, goal_differential: -2 },
+      ],
+    },
+  ],
+};
+
+const fallbackMatchesData = [
+  {
+    datetime: "2022-11-22T10:00:00Z",
+    home_team: { name: "Argentina", goals: 1 },
+    away_team: { name: "Saudi Arabia", goals: 2 },
+  },
+  {
+    datetime: "2022-11-26T19:00:00Z",
+    home_team: { name: "Argentina", goals: 2 },
+    away_team: { name: "Mexico", goals: 0 },
+  },
+  {
+    datetime: "2022-11-30T19:00:00Z",
+    home_team: { name: "Poland", goals: 0 },
+    away_team: { name: "Argentina", goals: 2 },
+  },
+  {
+    datetime: "2022-11-22T19:00:00Z",
+    home_team: { name: "France", goals: 4 },
+    away_team: { name: "Australia", goals: 1 },
+  },
+  {
+    datetime: "2022-11-26T19:00:00Z",
+    home_team: { name: "France", goals: 2 },
+    away_team: { name: "Denmark", goals: 1 },
+  },
+  {
+    datetime: "2022-11-30T19:00:00Z",
+    home_team: { name: "Tunisia", goals: 1 },
+    away_team: { name: "France", goals: 0 },
+  },
+  {
+    datetime: "2022-12-18T15:00:00Z",
+    home_team: { name: "Argentina", goals: 3 },
+    away_team: { name: "France", goals: 3 },
+  },
+];
+
 const statusElement = document.getElementById("statusMessage");
 
 function setStatus(message, isError = false) {
@@ -38,6 +99,15 @@ async function fetchJson(url) {
       }
     }
     throw error;
+  }
+}
+
+async function fetchJsonWithFallback(url, fallbackData) {
+  try {
+    return await fetchJson(url);
+  } catch (error) {
+    console.warn("Using fallback data because fetch failed:", error.message);
+    return fallbackData;
   }
 }
 
@@ -281,28 +351,28 @@ function renderTips(homeRecord, awayRecord) {
 
 async function init() {
   setStatus("Cargando datos reales desde worldcupjson.net...");
-  try {
-    const [teamsData, matchesData] = await Promise.all([
-      fetchJson(endpoints.teams),
-      fetchJson(endpoints.matches),
-    ]);
+  const [teamsData, matchesData] = await Promise.all([
+    fetchJsonWithFallback(endpoints.teams, fallbackTeamsData),
+    fetchJsonWithFallback(endpoints.matches, fallbackMatchesData),
+  ]);
 
-    const homeRecord = collectTeamRecords(matchesData, defaultHomeTeam);
-    const awayRecord = collectTeamRecords(matchesData, defaultAwayTeam);
-    const headToHead = buildHeadToHead(defaultHomeTeam, defaultAwayTeam, matchesData);
-
-    renderRanking(teamsData);
-    renderRecentResults(homeRecord, awayRecord, headToHead);
-    renderBettingOdds(homeRecord, awayRecord);
-    renderTeamStats(homeRecord, awayRecord);
-    renderPrediction(buildPredictions(homeRecord, awayRecord, headToHead));
-    renderTips(homeRecord, awayRecord);
-
-    setStatus("Datos cargados con fuentes reales. Ajusta equipos o mercados según el análisis.");
-  } catch (error) {
-    console.error(error);
-    setStatus("No se pudieron cargar los datos reales. Usa una conexión de internet activa o prueba otra fuente.", true);
+  if (!teamsData || !matchesData) {
+    setStatus("No se pudieron cargar datos reales ni el fallback local.", true);
+    return;
   }
+
+  const homeRecord = collectTeamRecords(matchesData, defaultHomeTeam);
+  const awayRecord = collectTeamRecords(matchesData, defaultAwayTeam);
+  const headToHead = buildHeadToHead(defaultHomeTeam, defaultAwayTeam, matchesData);
+
+  renderRanking(teamsData);
+  renderRecentResults(homeRecord, awayRecord, headToHead);
+  renderBettingOdds(homeRecord, awayRecord);
+  renderTeamStats(homeRecord, awayRecord);
+  renderPrediction(buildPredictions(homeRecord, awayRecord, headToHead));
+  renderTips(homeRecord, awayRecord);
+
+  setStatus("Datos cargados. Si se usó fallback local, el análisis se basa en datos de ejemplo.");
 }
 
 init();
