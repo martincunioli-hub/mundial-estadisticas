@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Estadísticas Mundial</title>
+  <title>Mundial 2026 · Estilo Betano / Betsson</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="hero">
-    <div class="hero-content">
-      <h1>Estadísticas del Mundial</h1>
-      <p>Comparativa basada en ranking FIFA, resultados anteriores, datos deportivos y señales de apuestas.</p>
+    <div class="hero-main">
+      <span class="hero-badge">BOOKMAKER STYLE</span>
+      <h1>Mundial 2026 — Estadísticas y cuotas</h1>
+      <p>Pronósticos deportivos con datos reales, cuotas simuladas y mercados recomendados, al estilo Betano y Betsson.</p>
+      <div class="hero-chips">
+        <span class="chip">📊 Datos reales + fallback local</span>
+        <span class="chip">🎯 Cuotas estilo casa de apuestas</span>
+        <span class="chip">⚽ Mercados de partido</span>
+      </div>
     </div>
   </header>
 
   <main class="container">
     <section class="section status">
-      <p id="statusMessage" class="status-message">Cargando datos reales de World Cup...</p>
+      <p id="statusMessage" class="status-message">Cargando datos reales desde worldcupjson.net...</p>
     </section>
 
     <section class="section cards-grid">
@@ -30,14 +36,23 @@
         <div id="recentResults"></div>
       </article>
 
-      <article class="card" id="bettingOddsCard">
-        <h2>Probabilidades de apuestas</h2>
-        <div id="bettingOdds"></div>
-      </article>
-
       <article class="card" id="teamStatsCard">
         <h2>Estadísticas de equipo</h2>
         <div id="teamStats"></div>
+      </article>
+    </section>
+
+    <section class="section markets-grid">
+      <article class="market-card" id="bettingOddsCard">
+        <h2>Cuotas simuladas</h2>
+        <p class="card-subtitle">Estilo Betano / Betsson · Uso orientativo</p>
+        <div id="bettingOdds"></div>
+      </article>
+
+      <article class="market-card" id="tipsCard">
+        <h2>Mercados recomendados</h2>
+        <p class="card-subtitle">Selecciones rápidas basadas en las estadísticas</p>
+        <div id="tips"></div>
       </article>
     </section>
 
@@ -45,15 +60,10 @@
       <h2>Análisis y pronóstico</h2>
       <div id="prediction"></div>
     </section>
-
-    <section class="section tips">
-      <h2>Sugerencias de apuestas</h2>
-      <div id="tips"></div>
-    </section>
   </main>
 
   <footer class="footer">
-    <p>Ejemplo de página con análisis de Mundial basado en datos reales cuando están disponibles.</p>
+    <p>Inspirado en interfaces de apuestas deportivas. No es un sitio oficial de Betano ni Betsson.</p>
     <p class="source-note">Fuentes: <a href="https://worldcupjson.net" target="_blank" rel="noreferrer">worldcupjson.net</a>, <a href="https://raw.githubusercontent.com/openfootball/worldcup.json/master/2022/worldcup.json" target="_blank" rel="noreferrer">GitHub openfootball</a>.</p>
   </footer>
 

@@ -245,25 +245,74 @@ function renderRecentResults(homeRecord, awayRecord, headToHead) {
 function renderBettingOdds(homeRecord, awayRecord) {
   const container = document.getElementById("bettingOdds");
   if (!container) return;
+  container.innerHTML = "";
+
   const totalGoalDelta = homeRecord.avgGoalsFor - awayRecord.avgGoalsAgainst;
   const probabilityHome = Math.min(0.68, Math.max(0.22, 0.35 + totalGoalDelta * 0.07 + (homeRecord.wins - awayRecord.wins) * 0.02));
   const probabilityAway = Math.min(0.65, Math.max(0.18, 0.33 - totalGoalDelta * 0.06 + (awayRecord.wins - homeRecord.wins) * 0.02));
   const probabilityDraw = Math.max(0.12, 1 - probabilityHome - probabilityAway);
 
+  const averageGoals = (homeRecord.avgGoalsFor + awayRecord.avgGoalsFor) / 2;
+  const probabilityOver = Math.min(0.78, Math.max(0.22, 0.34 + averageGoals * 0.15));
+  const probabilityBTTS = Math.min(0.82, Math.max(0.18, 0.26 + homeRecord.scoredRate * 0.2 + awayRecord.scoredRate * 0.18));
+
   const odds = {
     home: (1 / probabilityHome).toFixed(2),
     draw: (1 / probabilityDraw).toFixed(2),
     away: (1 / probabilityAway).toFixed(2),
+    over: (1 / probabilityOver).toFixed(2),
+    btts: (1 / probabilityBTTS).toFixed(2),
   };
 
-  const teamBox = document.createElement("div");
-  teamBox.innerHTML = `
-    <p class="label">Estimación basada en datos reales</p>
-    <div class="stat-row"><span>${homeRecord.name}</span><span class="value">${odds.home}</span></div>
-    <div class="stat-row"><span>Empate</span><span class="value">${odds.draw}</span></div>
-    <div class="stat-row"><span>${awayRecord.name}</span><span class="value">${odds.away}</span></div>
-  `;
-  container.appendChild(teamBox);
+  const board = document.createElement("div");
+  board.className = "odds-grid";
+  const items = [
+    {
+      title: `${homeRecord.name} Gana`,
+      value: odds.home,
+      subtitle: "Mercado 1X2",
+    },
+    {
+      title: "Empate",
+      value: odds.draw,
+      subtitle: "Mercado 1X2",
+    },
+    {
+      title: `${awayRecord.name} Gana`,
+      value: odds.away,
+      subtitle: "Mercado 1X2",
+    },
+    {
+      title: "Más de 2.5 goles",
+      value: odds.over,
+      subtitle: "Mercado Over/Under",
+    },
+    {
+      title: "Ambos marcan",
+      value: odds.btts,
+      subtitle: "Mercado BTTS",
+    },
+  ];
+
+  items.forEach((item) => {
+    const tile = document.createElement("div");
+    tile.className = "odds-card";
+    tile.innerHTML = `
+      <div>
+        <div class="odds-title">${item.title}</div>
+        <div class="odds-value">${item.value}</div>
+      </div>
+      <div class="odds-sub">${item.subtitle}</div>
+    `;
+    board.appendChild(tile);
+  });
+
+  const footer = document.createElement("div");
+  footer.className = "odds-footer";
+  footer.textContent = "Mercados extra: 1X2, Más/Menos 2.5 y BTTS al estilo de una casa de apuestas. Usa estos datos como guía, no como apuesta definitiva.";
+
+  container.appendChild(board);
+  container.appendChild(footer);
 }
 
 function renderTeamStats(homeRecord, awayRecord) {

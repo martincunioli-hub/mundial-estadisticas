@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #1b2330;
-  background: #f2f6fb;
+  color: #e7edf6;
+  background: radial-gradient(circle at top, #09243c 0%, #03111f 55%, #020811 100%);
   line-height: 1.5;
 }
 
@@ -14,26 +14,63 @@ body {
 }
 
 .hero {
-  background: linear-gradient(135deg, #0f4c81 0%, #2b6fbf 100%);
-  color: white;
-  padding: 3rem 1.5rem;
+  background: linear-gradient(135deg, #08182d 0%, #0f335f 100%);
+  color: #f7fbff;
+  padding: 3rem 1.5rem 2.5rem;
   text-align: center;
+}
+
+.hero-main {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #d9f1ff;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
 }
 
 .hero h1 {
   margin: 0;
   font-size: clamp(2.25rem, 4vw, 3.5rem);
+  letter-spacing: 0.02em;
 }
 
 .hero p {
-  margin: 1rem auto 0;
-  max-width: 720px;
+  margin: 1rem auto 1.5rem;
+  max-width: 760px;
   font-size: 1.05rem;
-  opacity: 0.92;
+  opacity: 0.88;
+}
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.chip {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #dce8ff;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
 }
 
 .container {
-  max-width: 1160px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 2rem 1.5rem 3rem;
 }
@@ -42,27 +79,36 @@ body {
   margin-bottom: 2rem;
 }
 
-.cards-grid {
+.cards-grid,
+.markets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
 .card,
-.prediction,
-.tips {
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 18px 45px rgba(18, 51, 92, 0.08);
-  padding: 1.5rem;
+.market-card,
+.prediction {
+  background: rgba(16, 28, 48, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+  padding: 1.75rem;
 }
 
 .card h2,
-.prediction h2,
-.tips h2 {
+.market-card h2,
+.prediction h2 {
   margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+  margin-bottom: 0.85rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+}
+
+.card-subtitle {
+  color: #97b6d9;
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
 }
 
 .stat-row,
@@ -70,38 +116,33 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 0.9rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .stat-row:last-child,
 .tip-row:last-child {
   margin-bottom: 0;
+  border-bottom: none;
 }
 
 .label {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .value {
   opacity: 0.94;
 }
 
-.prediction p,
-.tips p {
-  margin: 0.8rem 0;
-}
-
-.status {
-  margin-bottom: 1.75rem;
-}
-
 .status-message {
-  color: #1b2330;
-  font-weight: 600;
+  color: #bfe0ff;
+  font-weight: 700;
+  text-align: center;
 }
 
 .status-error {
-  color: #be3f4d;
+  color: #ff8fa4;
 }
 
 ul {
@@ -110,27 +151,79 @@ ul {
 }
 
 li {
-  margin-bottom: 0.65rem;
-}
-
-.tag {
-  display: inline-block;
-  margin-top: 0.65rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  background: #e8eff9;
-  color: #0f4c81;
-  font-size: 0.88rem;
+  margin-bottom: 0.75rem;
 }
 
 .footer {
   text-align: center;
-  color: #5f6f85;
-  padding: 1rem 1.5rem 2rem;
+  color: #8fa7c6;
+  padding: 1.25rem 1.5rem 2rem;
+}
+
+.footer a {
+  color: #9cc2ff;
+  text-decoration: none;
+}
+
+.odds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.odds-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1rem;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.odds-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.55rem;
+}
+
+.odds-value {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.odds-sub {
+  color: #a4bbd7;
+  font-size: 0.88rem;
+}
+
+.odds-footer {
+  margin-top: 1rem;
+  color: #9cb8dc;
+  font-size: 0.95rem;
+}
+
+.bet-badge {
+  display: inline-flex;
+  background: #2f6188;
+  color: #ebf8ff;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 @media (max-width: 640px) {
   .hero {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 1.75rem;
+  }
+
+  .hero-chips {
+    flex-direction: column;
+    align-items: center;
   }
 }
