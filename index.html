@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estadísticas Mundial</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Estadísticas del Mundial</h1>
+      <p>Comparativa basada en ranking FIFA, resultados anteriores, datos deportivos y señales de apuestas.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section status">
+      <p id="statusMessage" class="status-message">Cargando datos reales de World Cup...</p>
+    </section>
+
+    <section class="section cards-grid">
+      <article class="card" id="fifaRankingCard">
+        <h2>Ranking FIFA</h2>
+        <div id="fifaRanking"></div>
+      </article>
+
+      <article class="card" id="recentResultsCard">
+        <h2>Resultados anteriores</h2>
+        <div id="recentResults"></div>
+      </article>
+
+      <article class="card" id="bettingOddsCard">
+        <h2>Probabilidades de apuestas</h2>
+        <div id="bettingOdds"></div>
+      </article>
+
+      <article class="card" id="teamStatsCard">
+        <h2>Estadísticas de equipo</h2>
+        <div id="teamStats"></div>
+      </article>
+    </section>
+
+    <section class="section prediction">
+      <h2>Análisis y pronóstico</h2>
+      <div id="prediction"></div>
+    </section>
+
+    <section class="section tips">
+      <h2>Sugerencias de apuestas</h2>
+      <div id="tips"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Ejemplo de página con análisis de Mundial basado en datos reales cuando están disponibles.</p>
+    <p class="source-note">Fuentes: <a href="https://worldcupjson.net" target="_blank" rel="noreferrer">worldcupjson.net</a>, <a href="https://raw.githubusercontent.com/openfootball/worldcup.json/master/2022/worldcup.json" target="_blank" rel="noreferrer">GitHub openfootball</a>.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
